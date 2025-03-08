@@ -5,6 +5,10 @@ import javax.swing.*;
 public class test extends JFrame {
     private JPanel sidebar;
     private JPanel homePanel;
+    private JPanel homePage;
+    private JPanel shortcutPanel;
+    private JPanel viewShortcut;
+    private JPanel analyticsShortcut;
     private JPanel recordsPanel;
     private JPanel viewPanel;
     private JPanel statsPanel;
@@ -24,7 +28,7 @@ public class test extends JFrame {
 
     public void formatFrame() {
         setTitle("TeRMS");
-        setSize(1000, 600);
+        setSize(1280, 700);
         setUndecorated(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,18 +44,71 @@ public class test extends JFrame {
         // Home Panel
         homePanel = new JPanel();
         homePanel.setBackground(Color.WHITE);
-        homePanel.setBounds(100, 0, 900, 600);
+        homePanel.setBounds(100, 0, 1180, 700);
+        homePanel.setLayout(null);
         add(homePanel);
 
+        homePage = new JPanel();
+        homePage.setBackground(Color.white);
+        homePage.setLayout(null);
+        homePage.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        homePage.setBounds(0, 0, 1180, 100);
+        homePage.setVisible(true);
+        homePanel.add(homePage);
+
         JLabel txtHome = new JLabel("Home");
-        txtHome.setBounds(10, 10, 100, 50); 
-        homePanel.add(txtHome);
+        txtHome.setFont(new Font("Arial", Font.BOLD, 30));
+        txtHome.setBounds(550, 20, 200, 100);
+        homePage.add(txtHome);
+
+        
+        JLabel txtShortcut = new JLabel("Add new record");
+        txtShortcut.setFont(new Font("Arial", Font.BOLD, 20));
+        txtShortcut.setBounds(40, 100, 200, 100);
+        homePanel.add(txtShortcut);
+
+        JLabel txtViewShortcut = new JLabel("View all records");
+        txtViewShortcut.setFont(new Font("Arial", Font.BOLD, 20));
+        txtViewShortcut.setBounds(40, 250, 200, 100);
+        homePanel.add(txtViewShortcut);
+
+        JLabel txtAnalyticsShortcut = new JLabel("View analytics");
+        txtAnalyticsShortcut.setFont(new Font("Arial", Font.BOLD, 20));
+        txtAnalyticsShortcut.setBounds(40, 400, 200, 100);
+        homePanel.add(txtAnalyticsShortcut);
+        
+        // Add shortcut Panel 
+        shortcutPanel = new JPanel();
+        shortcutPanel.setBackground(Color.white);
+        shortcutPanel.setLayout(null);
+        shortcutPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        shortcutPanel.setBounds(40, 170, 400, 100);
+        shortcutPanel.setVisible(true);
+        homePanel.add(shortcutPanel);
+
+        // view all records
+        viewShortcut = new JPanel();
+        viewShortcut.setBackground(Color.white);
+        viewShortcut.setLayout(null);
+        viewShortcut.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        viewShortcut.setBounds(40,320, 400, 100);
+        viewShortcut.setVisible(true);
+        homePanel.add(viewShortcut);
+
+        //view analytics
+        analyticsShortcut = new JPanel();
+        analyticsShortcut.setBackground(Color.white);
+        analyticsShortcut.setLayout(null);
+        analyticsShortcut.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        analyticsShortcut.setBounds(40, 470, 400, 100);
+        analyticsShortcut.setVisible(true);
+        homePanel.add(analyticsShortcut);
         
 
         // Records Panel
         recordsPanel = new JPanel();
         recordsPanel.setBackground(Color.white);
-        recordsPanel.setBounds(100, 0, 900, 600);
+        recordsPanel.setBounds(100, 0, 1180, 700);
         recordsPanel.setVisible(false); 
         add(recordsPanel);
 
@@ -62,7 +119,7 @@ public class test extends JFrame {
         // View Panel
         viewPanel = new JPanel();
         viewPanel.setBackground(Color.white);
-        viewPanel.setBounds(100, 0, 900, 600);
+        viewPanel.setBounds(100, 0, 1180, 700);
         viewPanel.setVisible(false); 
         add(viewPanel);
 
@@ -72,7 +129,7 @@ public class test extends JFrame {
         // Stats Panel
         statsPanel = new JPanel();
         statsPanel.setBackground(Color.white);
-        statsPanel.setBounds(100, 0, 900, 600);
+        statsPanel.setBounds(100, 0, 1180, 700);
         statsPanel.setVisible(false); 
         add(statsPanel);
 
