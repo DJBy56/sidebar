@@ -1,18 +1,22 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class test extends JFrame {
     private JPanel sidebar;
+    private JPanel homePanel;
+    private JPanel recordsPanel;
+    private JPanel viewPanel;
+    private JPanel statsPanel;
     private Timer expandTimer;
     private Timer collapseTimer;
     private int sidebarWidth = 100;
     private final int expandedWidth = 200;
     private final int collapsedWidth = 100;
-    private final int animationStep = 10;
+    private final int animationStep = 5;
 
-    private JLabel txtHome;
-    private JLabel txtRecords;
+    private JPanel homeItem, recordsItem, viewItem, statsItem;
+    private JPanel selectedPanel = null; // Tracks the selected item
 
     public test() {
         formatFrame();
@@ -29,54 +33,107 @@ public class test extends JFrame {
         // Sidebar Panel
         sidebar = new JPanel();
         sidebar.setLayout(null);
-        sidebar.setBackground(Color.GRAY);
+        sidebar.setBackground(Color.darkGray);
         sidebar.setBounds(0, 0, sidebarWidth, getHeight());
         add(sidebar);
 
-        // image
-        ImageIcon homeIcon = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\Home.jpg");
-        ImageIcon records = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\image-50x50 (2).jpg");
+        // Home Panel
+        homePanel = new JPanel();
+        homePanel.setBackground(Color.WHITE);
+        homePanel.setBounds(100, 0, 900, 600);
+        add(homePanel);
+
+        JLabel txtHome = new JLabel("Home");
+        txtHome.setBounds(10, 10, 100, 50); 
+        homePanel.add(txtHome);
         
-        // Icon Labels
-        JLabel homeIconLabel = new JLabel(homeIcon);
-        homeIconLabel.setBounds(10, 150, 50, 50);
-        sidebar.add(homeIconLabel);
 
-        JLabel recordsIconLabel = new JLabel(records);
-        recordsIconLabel.setBounds(10, 250, 50, 50);
-        sidebar.add(recordsIconLabel);
+        // Records Panel
+        recordsPanel = new JPanel();
+        recordsPanel.setBackground(Color.white);
+        recordsPanel.setBounds(100, 0, 900, 600);
+        recordsPanel.setVisible(false); 
+        add(recordsPanel);
 
-        // Text Labels
-        txtHome = new JLabel("Home");
-        txtHome.setForeground(Color.WHITE);
-        txtHome.setFont(new Font("Arial", Font.BOLD, 14));
-        txtHome.setBounds(70, 150, 100, 50); 
-        txtHome.setVisible(false);
+        JLabel txtRecords = new JLabel("Records");
+        txtRecords.setBounds(10, 10, 100, 50);
+        recordsPanel.add(txtRecords);
 
-        txtRecords = new JLabel("Records");
-        txtRecords.setForeground(Color.WHITE);
-        txtRecords.setFont(new Font("Arial", Font.BOLD, 14));
-        txtRecords.setBounds(70, 250, 100, 50); 
-        txtRecords.setVisible(false);
+        // View Panel
+        viewPanel = new JPanel();
+        viewPanel.setBackground(Color.white);
+        viewPanel.setBounds(100, 0, 900, 600);
+        viewPanel.setVisible(false); 
+        add(viewPanel);
 
-        sidebar.add(txtHome);
-        sidebar.add(txtRecords);
+        JLabel txtView = new JLabel("View");
+        txtView.setBounds(10, 10, 100, 50);
+        viewPanel.add(txtView);
+        // Stats Panel
+        statsPanel = new JPanel();
+        statsPanel.setBackground(Color.white);
+        statsPanel.setBounds(100, 0, 900, 600);
+        statsPanel.setVisible(false); 
+        add(statsPanel);
 
-        // Mouse hover effect
-        MouseAdapter hoverEffect = new MouseAdapter() {
+        JLabel txtStats = new JLabel("Analytics");
+        txtStats.setBounds(10, 10, 100, 50);    
+        statsPanel.add(txtStats);
+
+        // Image Icons
+        ImageIcon homeIcon = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\bahay.jpg");
+        ImageIcon recordsIcon = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\image-50x50 (2).jpg");
+        ImageIcon viewIcon = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\eye.jpg");
+        ImageIcon statsIcon = new ImageIcon("C:\\Users\\Baby Rose R. Garcia\\Documents\\New folder\\VS_SHID-main\\Terms\\src\\img\\stats.jpg");
+
+        // Home Item
+        homeItem = createNavItem(homeIcon, "Home", 10, 130); // Adjusted position
+        sidebar.add(homeItem);
+
+        // Records Item
+        recordsItem = createNavItem(recordsIcon, "Records", 10, 230); // Adjusted position
+        sidebar.add(recordsItem);
+
+        // View Item
+        viewItem = createNavItem(viewIcon, "View", 10, 330); // Adjusted position
+        sidebar.add(viewItem);
+
+        // Stats Item
+        statsItem = createNavItem(statsIcon, "Analytics", 10, 430); // Adjusted position
+        sidebar.add(statsItem);
+
+        // Add mouse listeners for switching panels
+        homeItem.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                txtHome.setForeground(Color.YELLOW); 
+            public void mouseClicked(MouseEvent e) {
+                showHomePanel();
+                highlightSelectedItem(homeItem);
             }
+        });
 
+        recordsItem.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseExited(MouseEvent e) {
-                txtHome.setForeground(Color.WHITE); 
+            public void mouseClicked(MouseEvent e) {
+                showRecordsPanel();
+                highlightSelectedItem(recordsItem);
             }
-        };
+        });
 
-        homeIconLabel.addMouseListener(hoverEffect);
-        txtHome.addMouseListener(hoverEffect);
+        viewItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showViewPanel();
+                highlightSelectedItem(viewItem);
+            }
+        });
+
+        statsItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showStatsPanel();
+                highlightSelectedItem(statsItem);
+            }
+        });
 
         // Mouse listeners for sidebar hover effect
         sidebar.addMouseListener(new MouseAdapter() {
@@ -100,39 +157,109 @@ public class test extends JFrame {
         setVisible(true);
     }
 
+    private void showHomePanel() {
+        homePanel.setVisible(true);
+        recordsPanel.setVisible(false);
+        viewPanel.setVisible(false);
+        statsPanel.setVisible(false);
+    }
+
+    private void showRecordsPanel() {
+        homePanel.setVisible(false);
+        recordsPanel.setVisible(true);
+        viewPanel.setVisible(false);
+        statsPanel.setVisible(false);
+    }
+
+    private void showViewPanel() {
+        homePanel.setVisible(false);
+        recordsPanel.setVisible(false);
+        viewPanel.setVisible(true);
+        statsPanel.setVisible(false);
+    }
+
+    private void showStatsPanel() {
+        homePanel.setVisible(false);
+        recordsPanel.setVisible(false);
+        viewPanel.setVisible(false);
+        statsPanel.setVisible(true);
+    }
+
+    // Method to create sidebar navigation items
+    private JPanel createNavItem(ImageIcon icon, String text, int x, int y) {
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBounds(x, y, sidebarWidth < expandedWidth ? 70 : 180, 80); // Adjusted width based on sidebar state
+        panel.setBackground(Color.darkGray);
+
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setBounds(10, 15, 50, 50); // Adjusted position of the icon
+        panel.add(iconLabel);
+
+        JLabel textLabel = new JLabel(text);
+        textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        textLabel.setBounds(70, 15, 100, 50); // Adjusted position of the text
+        textLabel.setVisible(sidebarWidth >= expandedWidth); // Set visibility based on sidebar state
+        panel.add(textLabel);
+
+        panel.putClientProperty("textLabel", textLabel); // Store textLabel in panel's client properties
+
+        return panel;
+    }
+
+    // Method to highlight the selected item
+    private void highlightSelectedItem(JPanel panel) {
+        if (selectedPanel != null) {
+            selectedPanel.setBorder(null); // Remove highlight from previous selection
+            selectedPanel.setBackground(Color.darkGray); // Change to darkGray when deselected
+        }
+
+        panel.setBorder(BorderFactory.createLineBorder(new Color(41, 121, 255), 2, true));
+        panel.setBackground(Color.gray);
+        selectedPanel = panel;
+    }
+
     private void expandSidebar() {
-        expandTimer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sidebarWidth < expandedWidth) {
-                    sidebarWidth += animationStep;
-                    sidebar.setBounds(0, 0, sidebarWidth, getHeight());
-                    sidebar.revalidate();
-                    sidebar.repaint();
-                } else {
-                    expandTimer.stop();
-                    txtHome.setVisible(true); 
-                    txtRecords.setVisible(true); 
+        expandTimer = new Timer(10, e -> {
+            if (sidebarWidth < expandedWidth) {
+                sidebarWidth += animationStep;
+                sidebar.setBounds(0, 0, sidebarWidth, getHeight());
+                homeItem.setBounds(10, 130, sidebarWidth - 20, 80); // Adjust home item width dynamically
+                recordsItem.setBounds(10, 230, sidebarWidth - 20, 80); // Adjust records item width dynamically
+                viewItem.setBounds(10, 330, sidebarWidth - 20, 80); // Adjust view item width dynamically
+                statsItem.setBounds(10, 430, sidebarWidth - 20, 80); // Adjust stats item width dynamically
+    
+                // Show text gradually
+                if (sidebarWidth > collapsedWidth + 20) {
+                    ((JLabel) homeItem.getClientProperty("textLabel")).setVisible(true);
+                    ((JLabel) recordsItem.getClientProperty("textLabel")).setVisible(true);
+                    ((JLabel) viewItem.getClientProperty("textLabel")).setVisible(true);
+                    ((JLabel) statsItem.getClientProperty("textLabel")).setVisible(true);
                 }
+            } else {
+                expandTimer.stop();
             }
         });
         expandTimer.start();
     }
-
+    
     private void collapseSidebar() {
-        txtHome.setVisible(false); 
-        txtRecords.setVisible(false); 
-        collapseTimer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sidebarWidth > collapsedWidth) {
-                    sidebarWidth -= animationStep;
-                    sidebar.setBounds(0, 0, sidebarWidth, getHeight());
-                    sidebar.revalidate();
-                    sidebar.repaint();
-                } else {
-                    collapseTimer.stop();
-                }
+        ((JLabel) homeItem.getClientProperty("textLabel")).setVisible(false); // Hide text immediately
+        ((JLabel) recordsItem.getClientProperty("textLabel")).setVisible(false); // Hide text immediately
+        ((JLabel) viewItem.getClientProperty("textLabel")).setVisible(false); // Hide text immediately
+        ((JLabel) statsItem.getClientProperty("textLabel")).setVisible(false); // Hide text immediately
+    
+        collapseTimer = new Timer(10, e -> {
+            if (sidebarWidth > collapsedWidth) {
+                sidebarWidth -= animationStep;
+                sidebar.setBounds(0, 0, sidebarWidth, getHeight());
+                homeItem.setBounds(10, 130, sidebarWidth - 20, 80); // Adjust home item width dynamically
+                recordsItem.setBounds(10, 230, sidebarWidth - 20, 80); // Adjust records item width dynamically
+                viewItem.setBounds(10, 330, sidebarWidth - 20, 80); // Adjust view item width dynamically
+                statsItem.setBounds(10, 430, sidebarWidth - 20, 80); // Adjust stats item width dynamically
+            } else {
+                collapseTimer.stop();
             }
         });
         collapseTimer.start();
