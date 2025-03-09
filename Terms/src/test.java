@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class test extends JFrame {
     private JPanel sidebar;
@@ -9,6 +10,15 @@ public class test extends JFrame {
     private JPanel shortcutPanel;
     private JPanel viewShortcut;
     private JPanel analyticsShortcut;
+    private JPanel active;
+    private JLabel lblactive;
+    private JPanel retired;
+    private JLabel lblretired;
+    private JPanel resign;
+    private JLabel lblresign;
+    private JPanel total;
+    private JLabel lbltotal;
+    private JLabel lbltable;
     private JPanel recordsPanel;
     private JPanel viewPanel;
     private JPanel statsPanel;
@@ -61,7 +71,6 @@ public class test extends JFrame {
         txtHome.setBounds(550, 20, 200, 100);
         homePage.add(txtHome);
 
-        
         JLabel txtShortcut = new JLabel("Add new record");
         txtShortcut.setFont(new Font("Arial", Font.BOLD, 20));
         txtShortcut.setBounds(40, 100, 200, 100);
@@ -76,7 +85,7 @@ public class test extends JFrame {
         txtAnalyticsShortcut.setFont(new Font("Arial", Font.BOLD, 20));
         txtAnalyticsShortcut.setBounds(40, 400, 200, 100);
         homePanel.add(txtAnalyticsShortcut);
-        
+
         // Add shortcut Panel 
         shortcutPanel = new JPanel();
         shortcutPanel.setBackground(Color.white);
@@ -86,12 +95,14 @@ public class test extends JFrame {
         shortcutPanel.setVisible(true);
         homePanel.add(shortcutPanel);
 
+        
+
         // view all records
         viewShortcut = new JPanel();
         viewShortcut.setBackground(Color.white);
         viewShortcut.setLayout(null);
         viewShortcut.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        viewShortcut.setBounds(40,320, 400, 100);
+        viewShortcut.setBounds(40, 320, 400, 100);
         viewShortcut.setVisible(true);
         homePanel.add(viewShortcut);
 
@@ -103,7 +114,101 @@ public class test extends JFrame {
         analyticsShortcut.setBounds(40, 470, 400, 100);
         analyticsShortcut.setVisible(true);
         homePanel.add(analyticsShortcut);
+
+        // active
+        active = new JPanel();
+        active.setBackground(Color.white);
+        active.setLayout(null);
+        active.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        active.setBounds(670, 170, 200, 100);
+        active.setVisible(true);
+        homePanel.add(active);
+
+        lblactive = new JLabel("Active Teachers");
+        lblactive.setFont(new Font("Arial", Font.BOLD, 15));
+        lblactive.setBounds(0, 0, 150, 20);
+        active.add(lblactive);
         
+        // retired
+        retired = new JPanel();
+        retired.setBackground(Color.white);
+        retired.setLayout(null);
+        retired.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        retired.setBounds(920, 170, 200, 100);
+        retired.setVisible(true);
+        homePanel.add(retired);
+
+        lblretired = new JLabel("Retired Teachers");
+        lblretired.setFont(new Font("Arial", Font.BOLD, 15));
+        lblretired.setBounds(0, 0, 150, 20);
+        retired.add(lblretired);
+
+        // resign
+        resign = new JPanel();
+        resign.setBackground(Color.white);
+        resign.setLayout(null);
+        resign.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        resign.setBounds(670, 320, 200, 100);
+        resign.setVisible(true);
+        homePanel.add(resign);
+
+        lblresign = new JLabel("Resigned Teachers");
+        lblresign.setFont(new Font("Arial", Font.BOLD, 15));
+        lblresign.setBounds(0, 0, 150, 20);
+        resign.add(lblresign);
+
+        // total
+        total = new JPanel();
+        total.setBackground(Color.white);
+        total.setLayout(null);
+        total.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        total.setBounds(920, 320, 200, 100);
+        total.setVisible(true);
+        homePanel.add(total);
+
+        lbltotal = new JLabel("Total Teachers");
+        lbltotal.setFont(new Font("Arial", Font.BOLD, 15));
+        lbltotal.setBounds(0, 0, 150, 20);
+        total.add(lbltotal);
+
+
+        // JTable
+        lbltable = new JLabel("Summary records");
+        lbltable.setFont(new Font("Arial", Font.BOLD, 20));
+        lbltable.setBounds(650, 400, 200, 100);
+        homePanel.add(lbltable);
+
+        // Sample data
+        Object[][] data = {
+
+        {"1234567891", "John Doe", "STEM", "Permanent", "Professor", "2015-08-20", "9"},
+        {"1987654321", "Jane Smith", "ICT", "Contractual", "Lecturer", "2018-06-15", "6"}
+        };
+
+
+        String[] columnNames = {"Employee ID", "Name", "Department", "Employment Status", "Position", "Date Hired", "Years of Service"};
+
+        // this table is a bitch
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // Ensures horizontal scrolling works
+
+        
+        table.getColumnModel().getColumn(0).setPreferredWidth(100); // Employee ID
+        table.getColumnModel().getColumn(1).setPreferredWidth(150); // Name
+        table.getColumnModel().getColumn(2).setPreferredWidth(120); // Department
+        table.getColumnModel().getColumn(3).setPreferredWidth(150); // Employment Status
+        table.getColumnModel().getColumn(4).setPreferredWidth(120); // Position
+        table.getColumnModel().getColumn(5).setPreferredWidth(100); // Date Hired
+        table.getColumnModel().getColumn(6).setPreferredWidth(120); // Years of Service
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(650, 470, 500, 200); // Increase size for better visibility
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        homePanel.add(scrollPane);
+
 
         // Records Panel
         recordsPanel = new JPanel();
@@ -126,6 +231,7 @@ public class test extends JFrame {
         JLabel txtView = new JLabel("View");
         txtView.setBounds(10, 10, 100, 50);
         viewPanel.add(txtView);
+
         // Stats Panel
         statsPanel = new JPanel();
         statsPanel.setBackground(Color.white);
